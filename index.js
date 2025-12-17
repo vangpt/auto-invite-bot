@@ -1,92 +1,179 @@
-import { chromium } from "playwright";
+import {
+  chromium
+} from "playwright";
 import path from "path";
-import { fileURLToPath } from "url";
+import {
+  fileURLToPath
+} from "url";
 
-// Đoạn này chỉ để tính đường dẫn tuyệt đối tới folder profile trong project
-const __filename = fileURLToPath(import.meta.url);
+import {
+  BUTTON_INVITE_CREATOR_SELECTOR,
+  SCROLL_CONTAINER_SELECTOR,
+  MAX_CREATORS
+} from "./src/constants/index.js";
+
+const __filename = fileURLToPath(
+  import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Tạo folder profile riêng cho tool
 const userDataDir = path.join(__dirname, "chrome-profile-tool");
 
-// Dùng Chrome thật
 const chromePath =
- "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 (async () => {
- const browser = await chromium.launchPersistentContext(userDataDir, {
-   headless: false,
-   executablePath: chromePath,
-   args: ["--no-first-run", "--no-default-browser-check"],
- });
+  const browser = await chromium.launchPersistentContext(userDataDir, {
+    viewport: {
+      width: 1920,
+      height: 1080
+    },
+    headless: false,
+    executablePath: chromePath,
+    args: ["--no-first-run", "--no-default-browser-check", ],
 
- const page = await browser.newPage();
- await page.goto(
-   "https://affiliate.tiktok.com/connection/creator?shop_region=VN",
-   {
-     waitUntil: "domcontentloaded",
-   }
- );
+  })
 
-//  const buttonSelector =
-//    ".arco-btn.arco-btn-secondary.arco-btn-size-default.arco-btn-shape-square.arco-btn-icon-only";
+  const page = await browser.newPage();
 
-//  // Div scroll bạn nói: id="scroll-container"
-//  const scrollContainerSelector = "#scroll-container";
 
-//  // Đợi container xuất hiện
-//  await page.waitForSelector(scrollContainerSelector, { timeout: 15000 });
-//  console.log("Đã thấy #scroll-container");
+  await page.goto(
+    "https://affiliate.tiktok.com/connection/target-invitation/create?creator_ids[0]=7494007232910755382&creator_ids[1]=7494076501915109141", {
+      waitUntil: "domcontentloaded",
+    }
+  );
 
-//  const targetCount = 50;
-//  let iteration = 0;
+  // await page.getByPlaceholder('Tên lời mời').fill('abc');
+  // await page.getByPlaceholder('Ngày kết thúc').click();
+  // await page.locator('div.arco-picker-date-value', {
+  //   hasText: '30'
+  // }).click();
 
-//  while (true) {
-//    iteration++;
 
-//    // Đếm hiện tại có bao nhiêu nút
-//    const count = await page.$$eval(buttonSelector, (els) => els.length);
-//    console.log(`Vòng ${iteration} – hiện có ${count} nút`);
+  // await page.locator('div.arco-typography', {
+  //   hasText: 'Chọn sản phẩm'
+  // }).click();
 
-//    if (count >= targetCount) {
-//      console.log(`Đã tìm đủ ${targetCount} nút, dừng scroll.`);
-//      break;
-//    }
+  // await page.getByRole('button', {
+  //   name: 'Thêm sản phẩm'
+  // }).click();
 
-//    // Scroll trong div #scroll-container
-//    const canScrollMore = await page.evaluate((containerSel) => {
-//      const el = document.querySelector(containerSel);
-//      if (!el) return false;
+  // await page.locator('div[title="Tên sản phẩm"]').click();
 
-//      const before = el.scrollTop;
-//      el.scrollTop = el.scrollHeight; // kéo xuống cuối
+  // await page.locator('li', {
+  //   hasText: 'ID sản phẩm'
+  // }).click();
 
-//      // nếu scrollTop không đổi -> đang ở đáy, hết chỗ để scroll
-//      return el.scrollTop !== before;
-//    }, scrollContainerSelector);
+  // await page.getByRole('textbox', {
+  //   name: 'Tìm kiếm sản phẩm'
+  // }).fill('1731178131058494136');
 
-//    console.log("Đã scroll trong #scroll-container…");
+  // await page.locator('svg.arco-icon-search').click();
 
-//    // Chờ trang load thêm nội dung (lazy load, API, v.v.)
-//    await page.waitForTimeout(1500);
+  // await page.locator('td div.arco-checkbox-mask').last().click();
 
-//    if (!canScrollMore) {
-//      console.log(
-//        "Scroll nhưng scrollTop không đổi -> đã ở đáy, không load thêm nội dung. Dừng."
-//      );
-//      break;
-//    }
+  // await page.getByRole('button', {
+  //   name: 'Thêm',
+  //   exact: true
+  // }).click();
 
-//    // Chống vòng lặp vô hạn
-//    if (iteration > 50) {
-//      console.log("Quá 50 vòng mà chưa đủ 50 nút, dừng để tránh chạy vô hạn.");
-//      break;
-//    }
-//  }
+  // await page.getByRole('spinbutton', {
+  //   name: '1.00-80.00'
+  // }).fill('12');
 
- console.log("Xong phase scan + scroll. Giữ browser mở cho bạn xem.");
+  // await page.locator('button.arco-switch.arco-switch-type-circle[role="switch"]').first().click();
 
- console.log("Kết thúc vòng tìm nút, giữ Chrome mở cho bạn xem.");
- await page.waitForTimeout(60 * 60 * 1000);
+  // await page.getByRole('spinbutton', {
+  //   name: '1.00-80.00'
+  // }).last().fill('4');
+
+  // await page.locator('div.arco-typography', {
+  //   hasText: 'Cài đặt mẫu miễn phí'
+  // }).click();
+
+  // await page.locator('div.text-head-s.text-neutral-text1', {
+  //   hasText: 'Xét duyệt thủ công yêu cầu'
+  // }).click();
+
+  // await page.getByRole('button', {
+  //   name: 'Gửi',
+  //   exact: true
+  // }).click();
+
+
+
+
+
+
+
+
+
+
+
+
+  // await page.goto(
+  //   "https://affiliate.tiktok.com/connection/creator?shop_region=VN", {
+  //     waitUntil: "domcontentloaded",
+  //   }
+  // );
+
+  // await page.waitForSelector(SCROLL_CONTAINER_SELECTOR, {
+  //   timeout: 15000
+  // });
+
+  // let count = await page.$$eval(BUTTON_INVITE_CREATOR_SELECTOR, (els) => els.length);
+
+  // while (count < MAX_CREATORS) {
+  //   // Scroll the container
+  //   await page.evaluate((selector) => {
+  //     const container = document.querySelector(selector);
+  //     if (container) {
+  //       container.scrollBy(0, 1000); // Scroll down by 500px
+  //     }
+  //   }, SCROLL_CONTAINER_SELECTOR);
+
+  //   // Wait for 2 seconds before rechecking
+  //   await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  //   // Recheck the button count
+  //   count = await page.$$eval(BUTTON_INVITE_CREATOR_SELECTOR, (els) => els.length);
+  //   console.log(`Found ${count} creator`);
+  // }
+
+  // if (count >= MAX_CREATORS) {
+  //   for (let i = 0; i < count; i++) {
+  //     console.log(`Invite creator ${i + 1}...`);
+  //     await page.$$eval(BUTTON_INVITE_CREATOR_SELECTOR, (els, index) => {
+  //       els[index].click();
+  //     }, i);
+
+  //     // Wait for a short delay after each click
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   }
+  //   await page.goto(
+  //     "https://affiliate.tiktok.com/connection/creator-management?view_blocked_creator=&shop_region=VN", {
+  //       waitUntil: "domcontentloaded",
+  //     }
+  //   );
+  // }
+
+  // await page.goto(
+  //   "https://affiliate.tiktok.com/connection/creator-management?view_blocked_creator=&shop_region=VN", {
+  //     waitUntil: "domcontentloaded",
+  //   }
+  // );
+
+  // await page.locator('button', {
+  //   has: page.locator('span', {
+  //     hasText: 'Mời hàng loạt'
+  //   })
+  // }).click();
+
+  // await page.locator('thead div.arco-checkbox-mask').click();
+
+  // await page.getByRole('button', {
+  //   name: 'Mời cộng tác'
+  // }).click();
+
+  console.log("Kết thúc vòng tìm nút, giữ Chrome mở cho bạn xem.");
+  await page.waitForTimeout(60 * 60 * 1000);
 })();
-
