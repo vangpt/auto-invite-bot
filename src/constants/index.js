@@ -1,11 +1,30 @@
-const BUTTON_INVITE_CREATOR_SELECTOR = ".arco-btn.arco-btn-secondary.arco-btn-size-default.arco-btn-shape-square.arco-btn-icon-only";
+const BUTTON_INVITE_CREATOR_SELECTOR =
+  ".arco-btn.arco-btn-secondary.arco-btn-size-default.arco-btn-shape-square.arco-btn-icon-only";
 
 const SCROLL_CONTAINER_SELECTOR = "#scroll-container";
 
-const MAX_CREATORS = 10;
+const MAX_CREATORS = 20;
+
+const ID_PRODUCT = "1731178131058494136";
+
+const TITLE_INVITE_CREATOR = "Mời cộng tác viên";
+
+const DATE_END_INVITE_CREATOR = "30";
+
+const MIN_FOLLOWERS = "9999";
+
+const STANDARD_COMMISSION_RATE = "12";
+
+const SHOP_COMMISSION_RATE = "4";
 
 export {
   BUTTON_INVITE_CREATOR_SELECTOR,
   SCROLL_CONTAINER_SELECTOR,
-  MAX_CREATORS
+  MAX_CREATORS,
+  ID_PRODUCT,
+  TITLE_INVITE_CREATOR,
+  DATE_END_INVITE_CREATOR,
+  MIN_FOLLOWERS,
+  STANDARD_COMMISSION_RATE,
+  SHOP_COMMISSION_RATE,
 };
