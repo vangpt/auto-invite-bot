@@ -5,7 +5,7 @@ import {
   MIN_FOLLOWERS,
 } from "../constants/index.js";
 
-export async function findCreator(page) {
+export async function FindCreator(page) {
   await page.goto(
     "https://affiliate.tiktok.com/connection/creator?shop_region=VN",
     {

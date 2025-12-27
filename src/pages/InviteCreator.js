@@ -6,7 +6,7 @@ import {
   SHOP_COMMISSION_RATE,
 } from "../constants/index.js";
 
-export async function inviteCreator(page) {
+export async function InviteCreator(page) {
   // step 1
   await page.getByPlaceholder("Tên lời mời").fill(TITLE_INVITE_CREATOR);
 
@@ -98,7 +98,35 @@ export async function inviteCreator(page) {
     })
     .click();
 
-  await page.locator("div[title='Đã gửi lời mời cộng tác!']").waitFor();
+  try {
+    await page
+      .locator("div.text-body-m-medium.text-neutral-text1", {
+        hasText: "Xóa nhà sáng tạo khỏi lời mời này",
+      })
+      .click();
+    await page
+      .locator(
+        "button.arco-btn.arco-btn-primary.arco-btn-size-large.arco-btn-shape-square",
+        {
+          name: "Giải quyết",
+          exact: true,
+        }
+      )
+      .click();
 
-  console.log("Invite successfully!");
+    await page
+      .locator(
+        "button.arco-btn.arco-btn-primary.arco-btn-size-large.arco-btn-shape-square[type='button']",
+        {
+          hasText: "Xóa",
+          exact: true,
+        }
+      )
+      .click();
+  } catch {
+  } finally {
+    await page.locator("div[title='Đã gửi lời mời cộng tác!']").waitFor();
+
+    console.log("Invite successfully!");
+  }
 }
